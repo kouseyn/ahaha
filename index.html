@@ -1,276 +1,283 @@
-import React, { useState, useEffect } from 'react';
-import { Instagram, MapPin, Clock, Phone, CreditCard, Car, ChevronRight, Utensils, Info } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>おうちごはんAHAHA | 岡山の温かい定食屋</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f5a623',
+                        secondary: '#7cb342',
+                        accent: '#ff7043',
+                        warm: '#fffaf0',
+                    },
+                    fontFamily: {
+                        sans: ['"Helvetica Neue"', 'Arial', '"Hiragino Kaku Gothic ProN"', '"Hiragino Sans"', 'Meiryo', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .parking-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+        }
+        .parking-spot {
+            aspect-ratio: 1 / 1.5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #ccc;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        .parking-spot.active {
+            background-color: #f5a623;
+            color: white;
+            border-color: #f5a623;
+        }
+        /* スムーススクロール */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-warm text-gray-800 font-sans pb-24">
 
-const App = () => {
-  const [activeTab, setActiveTab] = useState('info');
-
-  // スムーズスクロール用のヘルパー
-  const scrollTo = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-[#fffdfa] text-gray-800 font-sans selection:bg-orange-100">
-      {/* --- Header --- */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-orange-100">
-        <div className="max-w-md mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-sm">
-              笑
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="bg-primary p-1.5 rounded-full text-white">
+                    <i data-lucide="smile" class="w-6 h-6"></i>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight">おうちごはん<span class="text-primary">AHAHA</span></h1>
             </div>
-            <h1 className="font-bold text-xl tracking-tight text-orange-600">おうちごはんAHAHA</h1>
-          </div>
-          <button 
-            onClick={() => scrollTo('access')}
-            className="bg-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-orange-200 active:scale-95 transition-transform"
-          >
-            アクセス
-          </button>
+            <a href="#access" class="bg-gray-100 p-2 rounded-full hover:bg-gray-200 transition-colors">
+                <i data-lucide="map-pin" class="w-5 h-5 text-gray-600"></i>
+            </a>
         </div>
-      </header>
+    </header>
 
-      <main className="max-w-md mx-auto pt-16 pb-24">
-        {/* --- Hero Section --- */}
-        <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
-          <img 
-            src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&q=80&w=800" 
-            alt="温かい店内の様子" 
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-white"></div>
-          
-          <div className="relative z-10 text-center px-4">
-            <div className="bg-white/90 backdrop-blur-sm p-8 rounded-3xl shadow-2xl border border-white">
-              <p className="text-orange-600 font-bold mb-2 tracking-widest text-sm">OKAYAMA CITY LUNCH</p>
-              <h2 className="text-3xl font-bold mb-4 leading-tight">
-                お母さんの味に、<br />
-                <span className="text-orange-500 text-4xl">笑顔を添えて。</span>
-              </h2>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                手作りの温かさと、栄養たっぷりの<br />
-                日替わり定食をお楽しみください。
-              </p>
-              <button 
-                onClick={() => scrollTo('menu')}
-                className="flex items-center justify-center w-full gap-2 bg-orange-500 text-white font-bold py-4 rounded-2xl shadow-xl hover:bg-orange-600 transition-colors"
-              >
-                <Utensils size={20} />
-                メニューを見る
-              </button>
-            </div>
-          </div>
-        </section>
+    <!-- Hero Section -->
+    <section class="relative h-80 flex items-center justify-center overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&q=80&w=800" 
+             alt="" 
+             class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="relative text-center text-white px-4">
+            <h2 class="text-3xl font-bold mb-2 shadow-sm">お母さんの味に、<br>笑顔を添えて。</h2>
+            <p class="text-sm bg-primary/90 inline-block px-3 py-1 rounded-full">岡山県岡山市北区野田</p>
+        </div>
+    </section>
 
-        {/* --- Instagram Sync --- */}
-        <section className="px-4 py-12">
-          <div className="bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 p-6 rounded-[2rem] border border-pink-100 shadow-sm text-center">
-            <div className="flex justify-center mb-4">
-              <div className="p-3 bg-white rounded-2xl shadow-sm">
-                <Instagram className="text-pink-600" size={32} />
-              </div>
-            </div>
-            <h3 className="text-lg font-bold mb-2">本日のメニューはInstagramで更新中！</h3>
-            <p className="text-gray-600 text-sm mb-6 leading-relaxed">
-              仕入れに合わせた「今日だけ」のおいしさを<br />
-              毎日AM10:30頃に投稿しています。
+    <!-- Instagram Link Section -->
+    <section class="px-4 py-8 bg-white border-b border-orange-100">
+        <div class="max-w-md mx-auto text-center">
+            <h3 class="font-bold text-lg mb-4 flex items-center justify-center gap-2">
+                <i data-lucide="instagram" class="text-pink-600"></i>
+                本日のメニューはInstagramで！
+            </h3>
+            <p class="text-sm text-gray-600 mb-6">
+                店主が毎朝作る日替わり定食の内容や、完売情報は公式インスタグラムをチェックしてください。
             </p>
-            <a 
-              href="#" 
-              target="_blank" 
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold px-8 py-3 rounded-full shadow-lg active:scale-95 transition-transform"
-            >
-              最新投稿をチェック
-              <ChevronRight size={18} />
+            <a href="#" class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white px-8 py-3 rounded-full font-bold text-lg shadow-lg transform active:scale-95 transition-transform">
+                <i data-lucide="external-link" class="w-5 h-5"></i>
+                Instagramを見る
             </a>
-          </div>
-        </section>
-
-        {/* --- Menu Highlight --- */}
-        <section id="menu" className="px-4 py-8">
-          <div className="flex items-end justify-between mb-6">
-            <div>
-              <h3 className="text-2xl font-bold border-b-4 border-orange-400 inline-block">人気の定番定食</h3>
-              <p className="text-sm text-gray-500 mt-2">※表示価格はすべて税込です</p>
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            {[
-              { 
-                title: "カレーチキン南蛮定食", 
-                price: "1,100円", 
-                img: "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&q=80&w=400",
-                desc: "自家製タルタルとカレーの香りが食欲をそそる一番人気！" 
-              },
-              { 
-                title: "豚の生姜焼き定食", 
-                price: "1,000円", 
-                img: "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?auto=format&fit=crop&q=80&w=400",
-                desc: "たっぷり野菜と柔らかい豚肉。ご飯が進む定番の味。" 
-              },
-              { 
-                title: "日替わりAHAHA定食", 
-                price: "1,000円〜", 
-                img: "https://images.unsplash.com/photo-1547928576-a4a33237bec3?auto=format&fit=crop&q=80&w=400",
-                desc: "市場直送の旬食材を詰め込んだ、お母さん自慢の逸品。" 
-              }
-            ].map((item, idx) => (
-              <div key={idx} className="bg-white rounded-[1.5rem] overflow-hidden shadow-md border border-orange-50">
-                <img src={item.img} alt={item.title} className="w-full h-48 object-cover" />
-                <div className="p-5">
-                  <div className="flex justify-between items-center mb-2">
-                    <h4 className="font-bold text-lg">{item.title}</h4>
-                    <span className="text-orange-600 font-bold">{item.price}</span>
-                  </div>
-                  <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* --- Parking Map --- */}
-        <section className="px-4 py-12 bg-orange-50/50">
-          <div className="max-w-md mx-auto">
-            <div className="flex items-center gap-2 mb-6">
-              <Car className="text-orange-500" />
-              <h3 className="text-2xl font-bold">駐車場のご案内</h3>
-            </div>
-            
-            <div className="bg-white p-6 rounded-[2rem] shadow-sm border border-orange-100">
-              <div className="mb-6 text-center">
-                <span className="inline-block bg-orange-500 text-white font-bold px-6 py-1 rounded-full text-lg mb-2">
-                  5台完備
-                </span>
-                <p className="text-gray-700 font-bold">道路側「1番〜5番」をご利用ください</p>
-              </div>
-
-              {/* イラスト風マップ */}
-              <div className="relative aspect-[4/3] bg-gray-100 rounded-xl overflow-hidden border-2 border-gray-200">
-                {/* 道路 */}
-                <div className="absolute top-0 w-full h-1/3 bg-gray-300 flex items-center justify-center">
-                  <span className="text-gray-500 font-bold text-xs">一軒家前の道路</span>
-                </div>
-                {/* 駐車場枠 */}
-                <div className="absolute top-1/3 w-full flex justify-around p-2">
-                  {[1, 2, 3, 4, 5].map(num => (
-                    <div key={num} className="w-[18%] aspect-[1/2] border-2 border-dashed border-orange-400 bg-orange-100/50 rounded flex flex-col items-center justify-center">
-                      <span className="text-orange-600 font-bold">{num}</span>
-                      <Car size={14} className="text-orange-300" />
-                    </div>
-                  ))}
-                </div>
-                {/* 店舗位置 */}
-                <div className="absolute bottom-4 right-4 bg-orange-500 text-white px-4 py-6 rounded-lg font-bold shadow-lg">
-                  店舗
-                </div>
-              </div>
-              
-              <div className="mt-6 flex items-start gap-3 bg-blue-50 p-4 rounded-xl text-blue-800 text-sm">
-                <Info size={18} className="shrink-0 mt-0.5" />
-                <p>
-                  満車の場合は近隣のコインパーキングをご利用いただくか、スタッフまでお声がけください。
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* --- Shop Info & Google Maps --- */}
-        <section id="access" className="px-4 py-12">
-          <h3 className="text-2xl font-bold mb-8 text-center">SHOP INFO</h3>
-          
-          <div className="space-y-8">
-            {/* Google Map Placeholder */}
-            <div className="w-full aspect-video bg-gray-200 rounded-[2rem] overflow-hidden relative shadow-inner">
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-400 p-8 text-center">
-                <MapPin size={40} className="mb-2" />
-                <p className="text-sm">ここにGoogle Mapsが表示されます</p>
-                <p className="text-xs mt-2">岡山市北区野田2-1-11</p>
-              </div>
-              <img 
-                src="https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=800" 
-                alt="地図プレースホルダー" 
-                className="w-full h-full object-cover opacity-30 grayscale"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 gap-4">
-              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-gray-100">
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">
-                  <MapPin />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400">住所</p>
-                  <p className="font-bold">岡山市北区野田2-1-11</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-gray-100">
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">
-                  <Clock />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400">営業時間</p>
-                  <p className="font-bold">11:00〜14:30</p>
-                  <p className="text-xs text-orange-600">土日祝：11:00〜15:00</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4 p-4 bg-white rounded-2xl border border-gray-100">
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center text-orange-600">
-                  <CreditCard />
-                </div>
-                <div>
-                  <p className="text-xs text-gray-400">決済</p>
-                  <p className="font-bold">PayPay対応</p>
-                </div>
-              </div>
-            </div>
-
-            <a 
-              href="tel:000-0000-0000"
-              className="flex items-center justify-center gap-2 w-full bg-white border-2 border-orange-500 text-orange-600 font-bold py-4 rounded-2xl active:bg-orange-50 transition-colors"
-            >
-              <Phone size={20} />
-              お電話でのお問い合わせ
-            </a>
-          </div>
-        </section>
-      </main>
-
-      {/* --- Floating Footer Action (Mobile) --- */}
-      <footer className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-6 pt-2 bg-gradient-to-t from-white via-white to-transparent pointer-events-none">
-        <div className="max-w-md mx-auto flex gap-3 pointer-events-auto">
-          <a 
-            href="#" 
-            className="flex-1 flex items-center justify-center gap-2 bg-pink-600 text-white font-bold py-4 rounded-2xl shadow-xl shadow-pink-200"
-          >
-            <Instagram size={20} />
-            最新メニュー
-          </a>
-          <button 
-            onClick={() => scrollTo('access')}
-            className="flex-1 flex items-center justify-center gap-2 bg-orange-500 text-white font-bold py-4 rounded-2xl shadow-xl shadow-orange-200"
-          >
-            <MapPin size={20} />
-            お店の場所
-          </button>
         </div>
-      </footer>
+    </section>
 
-      {/* --- Small Footer --- */}
-      <footer className="bg-orange-50 py-12 text-center text-gray-400 text-xs px-4">
-        <p className="mb-2">© 2024 おうちごはんAHAHA</p>
-        <p>岡山市内のランチなら、アハハにお任せください。</p>
-      </footer>
+    <!-- Menu Section -->
+    <section class="px-4 py-10">
+        <h3 class="text-2xl font-bold mb-6 text-center">人気の定食</h3>
+        <div class="grid gap-6">
+            <!-- Menu Item 1 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-md flex items-center">
+                <img src="https://images.unsplash.com/photo-1562607311-477454917453?auto=format&fit=crop&q=80&w=300" 
+                     alt="" 
+                     class="w-32 h-32 object-cover">
+                <div class="p-4">
+                    <h4 class="font-bold text-lg">カレーチキン南蛮</h4>
+                    <p class="text-xs text-gray-500">スパイシーで食欲をそそる当店の看板メニュー</p>
+                    <p class="text-primary font-bold mt-2">¥950</p>
+                </div>
+            </div>
+            <!-- Menu Item 2 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-md flex items-center">
+                <img src="https://images.unsplash.com/photo-1621915473041-0164e29227f2?auto=format&fit=crop&q=80&w=300" 
+                     alt="" 
+                     class="w-32 h-32 object-cover">
+                <div class="p-4">
+                    <h4 class="font-bold text-lg">豚の生姜焼き</h4>
+                    <p class="text-xs text-gray-500">自家製タレが絡む、ご飯が進む定番の一品</p>
+                    <p class="text-primary font-bold mt-2">¥900</p>
+                </div>
+            </div>
+            <!-- Menu Item 3 -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-md flex items-center border-2 border-primary/20">
+                <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&q=80&w=300" 
+                     alt="" 
+                     class="w-32 h-32 object-cover">
+                <div class="p-4">
+                    <div class="flex items-center gap-1 mb-1">
+                        <span class="bg-red-500 text-[10px] text-white px-1.5 rounded">一番人気</span>
+                    </div>
+                    <h4 class="font-bold text-lg">日替わり定食</h4>
+                    <p class="text-xs text-gray-500">季節の野菜をたっぷり使った店主おまかせ定食</p>
+                    <p class="text-primary font-bold mt-1">時価（¥850〜）</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parking Section -->
+    <section id="parking" class="px-4 py-10 bg-gray-50">
+        <div class="max-w-md mx-auto">
+            <h3 class="text-2xl font-bold mb-4 text-center">駐車場のご案内</h3>
+            <p class="text-sm text-center text-gray-600 mb-6">
+                お店のすぐ隣、道路側に専用駐車場が<span class="font-bold text-primary text-lg">5台</span>ございます。
+            </p>
+            
+            <!-- Parking Map Diagram -->
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-200">
+                <div class="mb-4 text-center font-bold text-gray-400 border-b pb-2">店舗</div>
+                
+                <div class="flex flex-col gap-4">
+                    <!-- Parking Rows -->
+                    <div class="parking-grid mb-4">
+                        <div class="parking-spot active">1</div>
+                        <div class="parking-spot active">2</div>
+                        <div class="parking-spot active">3</div>
+                        <div class="parking-spot active">4</div>
+                        <div class="parking-spot active">5</div>
+                    </div>
+                    
+                    <div class="h-10 bg-gray-200 flex items-center justify-center text-xs text-gray-500 font-bold rounded">
+                        ← 道路側（こちらにお停めください）
+                    </div>
+                </div>
+
+                <div class="mt-6 flex gap-4 text-xs text-gray-600">
+                    <div class="flex items-center gap-1">
+                        <div class="w-3 h-3 bg-primary rounded"></div>
+                        <span>AHAHA専用</span>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <div class="w-3 h-3 border border-dashed border-gray-300 rounded"></div>
+                        <span>他店舗様用</span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-[10px] text-gray-400 mt-4 leading-relaxed">
+                ※1番〜5番以外の場所には駐車しないようお願い申し上げます。満車の場合はスタッフにお声がけください。
+            </p>
+        </div>
+    </section>
+
+    <!-- Shop Information -->
+    <section id="access" class="px-4 py-10">
+        <h3 class="text-2xl font-bold mb-6 text-center">店舗情報</h3>
+        <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-6">
+            <dl class="space-y-4">
+                <div>
+                    <dt class="text-xs text-gray-400 font-bold uppercase mb-1 flex items-center gap-1">
+                        <i data-lucide="map-pin" class="w-3 h-3"></i> 住所
+                    </dt>
+                    <dd class="text-sm">岡山市北区野田2-1-11</dd>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <dt class="text-xs text-gray-400 font-bold uppercase mb-1 flex items-center gap-1">
+                            <i data-lucide="clock" class="w-3 h-3"></i> 営業時間
+                        </dt>
+                        <dd class="text-sm">11:00 〜 15:00<br><span class="text-[10px] text-gray-500">(完売次第終了)</span></dd>
+                    </div>
+                    <div>
+                        <dt class="text-xs text-gray-400 font-bold uppercase mb-1 flex items-center gap-1">
+                            <i data-lucide="calendar" class="w-3 h-3"></i> 定休日
+                        </dt>
+                        <dd class="text-sm font-bold">不定休</dd>
+                    </div>
+                </div>
+                <div>
+                    <dt class="text-xs text-gray-400 font-bold uppercase mb-1 flex items-center gap-1">
+                        <i data-lucide="credit-card" class="w-3 h-3"></i> お支払い
+                    </dt>
+                    <dd class="text-sm flex items-center gap-2">
+                        現金 / PayPay対応
+                        <span class="inline-block px-1.5 py-0.5 bg-red-100 text-red-600 rounded text-[10px] font-bold tracking-tight">PayPay</span>
+                    </dd>
+                </div>
+            </dl>
+        </div>
+
+        <!-- Map Placeholder -->
+        <div class="bg-gray-200 rounded-3xl h-48 flex items-center justify-center flex-col text-gray-500 mb-4 overflow-hidden">
+            <i data-lucide="map" class="w-10 h-10 mb-2 opacity-20"></i>
+            <span class="text-xs">Google Map で表示</span>
+            <!-- 実際にはiframeなどで埋め込みが可能 -->
+            <!-- <iframe src="..." class="w-full h-full"></iframe> -->
+        </div>
+        <a href="https://maps.app.goo.gl/9yGvEPhNisvF2L4v8" class="block text-center text-primary font-bold text-sm underline">Googleマップを開く</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12 px-4 text-center">
+        <div class="bg-primary/20 p-3 rounded-full inline-block mb-4">
+            <i data-lucide="smile" class="w-8 h-8 text-primary"></i>
+        </div>
+        <h2 class="text-xl font-bold mb-2">おうちごはんAHAHA</h2>
+        <p class="text-xs text-gray-400 mb-8 leading-relaxed">
+            〒700-0971 岡山市北区野田2-1-11<br>
+            笑顔になれる、みんなの居場所。
+        </p>
+        <p class="text-[10px] text-gray-500">© 2024 おうちごはんAHAHA All Rights Reserved.</p>
+    </footer>
+
+    <!-- Floating Action Buttons -->
+    <div class="fixed bottom-6 inset-x-4 flex justify-center gap-3 z-50">
+        <a href="#" class="flex-1 bg-white border-2 border-primary text-primary flex items-center justify-center gap-2 py-3 rounded-full shadow-2xl font-bold active:bg-gray-50 transition-colors">
+            <i data-lucide="instagram" class="w-5 h-5"></i>
+            <span class="text-sm leading-none">最新メニュー</span>
+        </a>
+        <a href="#access" class="flex-1 bg-primary text-white flex items-center justify-center gap-2 py-3 rounded-full shadow-2xl font-bold active:bg-orange-600 transition-colors">
+            <i data-lucide="map-pin" class="w-5 h-5"></i>
+            <span class="text-sm leading-none">場所を確認</span>
+        </a>
     </div>
-  );
-};
 
-export default App;
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+
+        // 簡易的なスクロール検知でフローティングボタンの表示制御
+        window.addEventListener('scroll', () => {
+            const footer = document.querySelector('footer');
+            const fab = document.querySelector('.fixed.bottom-6');
+            const rect = footer.getBoundingClientRect();
+            
+            // フッター付近に来たら少し透過させるなどの演出が可能
+            if (rect.top < window.innerHeight) {
+                fab.style.opacity = "0.9";
+            } else {
+                fab.style.opacity = "1";
+            }
+        });
+    </script>
+</body>
+</html>
+
+
 
 
